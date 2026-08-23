@@ -1,0 +1,7 @@
+{
+  "promptPlaceHolder": "What do you want to ask?",
+  "send": "Send",
+  "clear": "Clear",
+  "loading": "Loading...",
+  "fetchAnswerError": "An error occurred while fetching the answer"
+}
