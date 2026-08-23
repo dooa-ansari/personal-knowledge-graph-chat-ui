@@ -1,54 +1,127 @@
-# personal-knowledge-graph-ai-chat
+# Personal Knowledge Graph Chat UI
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern chat interface built with Vue 3, TypeScript, Vite, and Tailwind CSS to interact with the Personal Knowledge Graph RAG (Retrieval-Augmented Generation) API.
 
-## Recommended IDE Setup
+## 🚀 Tech Stack
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Framework**: [Vue 3](https://vuejs.org/) (Composition API, `<script setup>`)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite](https://vite.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) via `@tailwindcss/vite`
+- **HTTP Client**: [Axios](https://axios-http.com/) (centralized client with cookie-based session support)
+- **Internationalization**: [Vue I18n](https://vue-i18n.intlify.dev/)
+- **State Management**: [Pinia](https://pinia.vuejs.org/)
+- **Routing**: [Vue Router](https://router.vuejs.org/)
+- **Code Quality**: ESLint, Oxlint, Oxfmt, and `vue-tsc`
 
-## Recommended Browser Setup
+---
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 🛠️ Getting Started
 
-## Type Support for `.vue` Imports in TS
+### 1. Prerequisites
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Node.js**: `^22.18.0 || >=24.12.0`
+- **Package Manager**: `npm` or `yarn`
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+### 2. Installation
 
 ```sh
-yarn
+yarn install
+# or
+npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 3. Environment Variables
+
+Create environment configuration files based on `.env.example`:
+
+- `.env.development` (loaded during `yarn dev`):
+  ```env
+  VITE_APP_ENV=development
+  VITE_API_BASE_URL=http://localhost:8000/api
+  ```
+
+- `.env.production` (loaded during `yarn build`):
+  ```env
+  VITE_APP_ENV=production
+  VITE_API_BASE_URL=https://api.yourdomain.com/api
+  ```
+
+---
+
+## 💻 Development & Scripts
+
+### Run Development Server
 
 ```sh
 yarn dev
+# or
+npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Build for Production (Type-Check & Minification)
 
 ```sh
 yarn build
+# or
+npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Preview Production Build
+
+```sh
+yarn preview
+# or
+npm run preview
+```
+
+### Run Unit Tests
 
 ```sh
 yarn test:unit
+# or
+npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Linting & Formatting
 
 ```sh
+# Run linter
 yarn lint
+
+# Format code
+yarn format
 ```
+
+---
+
+## 🔌 API Integration
+
+API communication is centralized in `src/services/api.ts` using Axios:
+
+- **Base URL**: Configured via `import.meta.env.VITE_API_BASE_URL`
+- **Credentials**: `withCredentials: true` is enabled for cookie-based session management.
+- **Endpoint**: `POST /search-rag`
+  - **Payload**:
+    ```json
+    {
+      "prompt": "Your question here"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "prompt": "Your question here",
+      "model": "model-name",
+      "retrieval_query": "Generated query",
+      "answer": "Generated answer from knowledge graph",
+      "retrieved_chunks": [...]
+    }
+    ```
+
+---
+
+## 🌐 Localization (i18n)
+
+Translations are organized in `src/locales/`:
+- `src/locales/en.json` — English translation keys for placeholders, buttons, and error messages.
