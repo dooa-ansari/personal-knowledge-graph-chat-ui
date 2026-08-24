@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+  --color-portfolio-dark: #181824;
+  --color-portfolio-surface: #222232;
+  --color-portfolio-purple: #c678dd;
+  --color-portfolio-cyan: #61afef;
+  --color-portfolio-green: #98c379;
+  --color-portfolio-muted: #5c6370;
+}
+
+body {
+  background-color: var(--color-portfolio-dark);
+  color: #abb2bf;
+  min-height: 100vh;
+}
