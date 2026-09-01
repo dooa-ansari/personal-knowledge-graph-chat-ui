@@ -4,6 +4,8 @@
   "clear": "Clear",
   "loading": "Loading...",
   "fetchAnswerError": "An error occurred while fetching the answer",
+  "rateLimitError": "Too many requests. Please try again in 30 seconds.",
+  "retry": "Retry",
   "info": {
     "aboutDooa": {
       "p1": "Dooa is a fullstack developer with 8+ years of experience.",
@@ -11,9 +13,9 @@
       "p3": "Aquariums are her hobby , she loves live plants and fishes",
       "p4": "Dooa would like to get a cat one day."
     },
-    "aboutProject":{
-       "p1": "This project is build on vue3 and tailwindcss",
-       "p2": "The project theme is inspired fromt the zed IDE theme colors."
+    "aboutProject": {
+      "p1": "This project is build on vue3 and tailwindcss",
+      "p2": "The project theme is inspired fromt the zed IDE theme colors."
     },
     "aboutBackend": {
       "p1": "The backend is built using modern Python and FastAPI.",

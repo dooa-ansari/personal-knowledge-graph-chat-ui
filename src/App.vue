@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onUnmounted } from "vue";
 import { useI18n } from "vue-i18n";
+import axios from "axios";
 import { searchRag } from "./services/api";
 import AppHeader from "./components/AppHeader.vue";
 import ChatInput from "./components/ChatInput.vue";
@@ -20,27 +21,56 @@ const { t } = useI18n();
 const userPrompt = ref("");
 const isLoading = ref(false);
 const errorMessage = ref("");
+const isRateLimited = ref(false);
+const retryCountdown = ref(0);
+const lastFailedPrompt = ref("");
 const messages = ref<Message[]>([]);
+
+let countdownTimer: ReturnType<typeof setInterval> | null = null;
+
+const is429Error = (err: unknown): boolean => {
+  return axios.isAxiosError(err) && err.response?.status === 429;
+};
+
+const startRateLimitCountdown = () => {
+  if (countdownTimer) clearInterval(countdownTimer);
+  retryCountdown.value = 30;
+  countdownTimer = setInterval(() => {
+    if (retryCountdown.value > 0) {
+      retryCountdown.value--;
+    } else if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
+  }, 1000);
+};
+
+onUnmounted(() => {
+  if (countdownTimer) clearInterval(countdownTimer);
+});
 
 const scrollToBottom = async () => {
   await nextTick();
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 };
 
-const handleSend = async () => {
-  const query = userPrompt.value.trim();
+const handleSend = async (customQuery?: string, isRetry = false) => {
+  const query = (customQuery ?? userPrompt.value).trim();
   if (!query || isLoading.value) return;
 
-  // 1. Add user message immediately
-  messages.value.push({
-    id: Date.now().toString(),
-    role: "user",
-    content: query,
-  });
+  // 1. Add user message if not a retry of existing query
+  if (!isRetry) {
+    messages.value.push({
+      id: Date.now().toString(),
+      role: "user",
+      content: query,
+    });
+    userPrompt.value = "";
+  }
 
-  // 2. Clear input & reset error
-  userPrompt.value = "";
+  // 2. Clear previous error & trigger loading
   errorMessage.value = "";
+  isRateLimited.value = false;
   isLoading.value = true;
   await scrollToBottom();
 
@@ -55,14 +85,28 @@ const handleSend = async () => {
       role: "assistant",
       content: data.answer,
     });
+    lastFailedPrompt.value = "";
     await scrollToBottom();
   } catch (err: unknown) {
-    errorMessage.value =
-      err instanceof Error ? err.message : t("fetchAnswerError");
+    if (is429Error(err)) {
+      isRateLimited.value = true;
+      lastFailedPrompt.value = query;
+      errorMessage.value = t("rateLimitError");
+      startRateLimitCountdown();
+    } else {
+      isRateLimited.value = false;
+      errorMessage.value =
+        err instanceof Error ? err.message : t("fetchAnswerError");
+    }
   } finally {
     isLoading.value = false;
     await scrollToBottom();
   }
+};
+
+const handleRetry = async () => {
+  if (!lastFailedPrompt.value || isLoading.value || retryCountdown.value > 0) return;
+  await handleSend(lastFailedPrompt.value, true);
 };
 </script>
 
@@ -98,10 +142,13 @@ const handleSend = async () => {
         <LoadingIndicator v-if="isLoading" />
       </div>
 
-      <!-- Error State Panel -->
+      <!-- Error State Panel with Retry -->
       <ErrorMessage
         v-if="errorMessage"
         :message="errorMessage"
+        :can-retry="isRateLimited"
+        :retry-countdown="retryCountdown"
+        @retry="handleRetry"
       />
 
     </div>
@@ -116,12 +163,12 @@ const handleSend = async () => {
             v-model="userPrompt"
             :placeholder="t('promptPlaceHolder')"
             :disabled="isLoading"
-            @submit="handleSend"
+            @submit="() => handleSend()"
           />
           <SendButton
             :is-loading="isLoading"
             :disabled="!userPrompt.trim()"
-            @click="handleSend"
+            @click="() => handleSend()"
           />
         </div>
       </div>
