@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n'
 
 interface Props {
-  message: string;
-  prefix?: string;
-  canRetry?: boolean;
-  retryCountdown?: number;
+  message: string
+  prefix?: string
+  canRetry?: boolean
+  retryCountdown?: number
 }
 
 withDefaults(defineProps<Props>(), {
-  prefix: "[ERR]",
+  prefix: '[ERR]',
   canRetry: false,
   retryCountdown: 0,
-});
+})
 
 defineEmits<{
-  (e: "retry"): void;
-}>();
+  (e: 'retry'): void
+}>()
 
-const { t } = useI18n();
+const { t } = useI18n()
 </script>
 
 <template>
@@ -38,7 +38,7 @@ const { t } = useI18n();
       class="self-start sm:self-auto px-3 py-1.5 bg-red-500/15 hover:bg-red-500/25 active:scale-95 text-red-300 font-mono text-xs rounded-lg border border-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition cursor-pointer flex items-center gap-1.5 shrink-0"
     >
       <span v-if="retryCountdown > 0">⏳ {{ retryCountdown }}s</span>
-      <span v-else>↻ {{ t("retry") }}</span>
+      <span v-else>↻ {{ t('retry') }}</span>
     </button>
   </div>
 </template>

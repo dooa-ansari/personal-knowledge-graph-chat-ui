@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:prod": "vite --mode production",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "run-s \"lint:*\"",
-    "lint:oxlint": "oxlint . --fix",
+    "lint:oxlint": "oxlint --ignore-path .gitignore . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "oxfmt src/"
   },
@@ -25,6 +26,7 @@
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
+    "@module-federation/vite": "^1.21.3",
     "@tsconfig/node24": "^24.0.4",
     "@types/jsdom": "^28.0.3",
     "@types/node": "^24.13.3",

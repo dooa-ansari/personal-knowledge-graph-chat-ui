@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
-  text?: string;
+  text?: string
 }
 
-const props = defineProps<Props>();
-const { t } = useI18n();
+const props = defineProps<Props>()
+const { t } = useI18n()
 
 const infoKeys = [
-  "info.aboutDooa.p1",
-  "info.aboutDooa.p2",
-  "info.aboutDooa.p3",
-  "info.aboutDooa.p4",
-  "info.aboutProject.p1",
-  "info.aboutProject.p2",
-  "info.aboutBackend.p1",
-  "info.aboutBackend.p2",
-  "info.aboutBackend.p3",
-  "info.aboutBackend.p4",
-];
+  'info.aboutDooa.p1',
+  'info.aboutDooa.p2',
+  'info.aboutDooa.p3',
+  'info.aboutDooa.p4',
+  'info.aboutProject.p1',
+  'info.aboutProject.p2',
+  'info.aboutBackend.p1',
+  'info.aboutBackend.p2',
+  'info.aboutBackend.p3',
+  'info.aboutBackend.p4',
+]
 
-const currentIndex = ref(Math.floor(Math.random() * infoKeys.length));
-const currentInfoKey = computed(() => infoKeys[currentIndex.value] ?? infoKeys[0]!);
-let intervalId: ReturnType<typeof setInterval> | null = null;
+const currentIndex = ref(Math.floor(Math.random() * infoKeys.length))
+const currentInfoKey = computed(() => infoKeys[currentIndex.value] ?? infoKeys[0]!)
+let intervalId: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
   intervalId = setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % infoKeys.length;
-  }, 3000);
-});
+    currentIndex.value = (currentIndex.value + 1) % infoKeys.length
+  }, 3000)
+})
 
 onUnmounted(() => {
   if (intervalId) {
-    clearInterval(intervalId);
+    clearInterval(intervalId)
   }
-});
+})
 </script>
 
 <template>
@@ -47,7 +47,7 @@ onUnmounted(() => {
       <span
         class="inline-block w-3.5 h-3.5 border-2 border-portfolio-purple border-t-transparent rounded-full animate-spin shrink-0"
       ></span>
-      <span class="text-gray-300 font-semibold">{{ props.text ?? t("loading") }}</span>
+      <span class="text-gray-300 font-semibold">{{ props.text ?? t('loading') }}</span>
       <span class="text-portfolio-muted text-[11px] truncate">// retrieving knowledge graph</span>
     </div>
 
@@ -65,20 +65,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(4px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-</style>

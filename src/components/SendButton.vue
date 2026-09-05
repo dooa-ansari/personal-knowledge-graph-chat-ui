@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n'
 
 interface Props {
-  isLoading?: boolean;
-  disabled?: boolean;
-  text?: string;
+  isLoading?: boolean
+  disabled?: boolean
+  text?: string
 }
 
 withDefaults(defineProps<Props>(), {
   isLoading: false,
   disabled: false,
-  text: undefined
-});
+  text: undefined,
+})
 
 defineEmits<{
-  (e: "click", event: MouseEvent): void;
-}>();
+  (e: 'click', event: MouseEvent): void
+}>()
 
-const { t } = useI18n();
+const { t } = useI18n()
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const { t } = useI18n();
       v-if="isLoading"
       class="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"
     ></span>
-    <span>{{ isLoading ? t("loading") : text || t("send") }}</span>
+    <span>{{ isLoading ? t('loading') : text || t('send') }}</span>
     <kbd
       v-if="!isLoading"
       class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] bg-black/25 rounded border border-white/10 font-mono text-gray-200"

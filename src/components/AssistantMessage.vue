@@ -1,14 +1,14 @@
 <script setup lang="ts">
 interface Props {
-  content: string;
-  title?: string;
-  status?: string;
+  content: string
+  title?: string
+  status?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  title: "rag_response",
-  status: "200 OK",
-});
+  title: 'rag_response',
+  status: '200 OK',
+})
 </script>
 
 <template>

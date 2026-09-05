@@ -1,15 +1,15 @@
 <script setup lang="ts">
 interface Props {
-  title?: string;
-  subtitle?: string;
-  version?: string;
+  title?: string
+  subtitle?: string
+  version?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  title: "knowledge_graph",
-  subtitle: "rag_query",
-  version: "v1.0.0",
-});
+  title: 'knowledge_graph',
+  subtitle: 'rag_query',
+  version: 'v1.0.0',
+})
 </script>
 
 <template>

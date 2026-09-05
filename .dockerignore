@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+.git
+.github
+.vscode
+.env
+.env.development
+.env.production
+.env.local
+.env.*.local
+.mf
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,19 +1,19 @@
 <script setup lang="ts">
 interface Props {
-  placeholder?: string;
-  disabled?: boolean;
+  placeholder?: string
+  disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  placeholder: "",
+  placeholder: '',
   disabled: false,
-});
+})
 
-const modelValue = defineModel<string>({ default: "" });
+const modelValue = defineModel<string>({ default: '' })
 
 defineEmits<{
-  (e: "submit"): void;
-}>();
+  (e: 'submit'): void
+}>()
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-portfolio-dark: #181824;
@@ -9,8 +9,26 @@
   --color-portfolio-muted: #5c6370;
 }
 
-body {
-  background-color: var(--color-portfolio-dark);
-  color: #abb2bf;
-  min-height: 100vh;
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Scoped Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
